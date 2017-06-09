@@ -1,0 +1,24 @@
+{
+  "name": "webpack-first",
+  "version": "1.0.0",
+  "description": "My first webpack project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack -d --watch",
+    "prod": "webpack -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/praveensoni1803/PRJ_WBPCK.git"
+  },
+  "author": "Praveen soni",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/praveensoni1803/PRJ_WBPCK/issues"
+  },
+  "homepage": "https://github.com/praveensoni1803/PRJ_WBPCK#readme",
+  "devDependencies": {
+    "html-webpack-plugin": "^2.28.0",
+    "webpack": "^2.6.1"
+  }
+}
