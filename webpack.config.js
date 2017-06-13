@@ -1,10 +1,11 @@
-var HtmlWebpackPlugin = require("html-webpack-plugin");
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const path = require('path');
 
 module.exports = {
     entry: "./src/app.js",
     output: {
-        path: "/Users/praveen/Projects/PRJ_WBPCK/dist",
+        path: path.resolve(__dirname, "dist"),
         filename: "app.min.js"
     },
     module: {
@@ -16,9 +17,9 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
-                    fallBackLoader: "style-loader",
+                    fallback: "style-loader",
                     use: ["css-loader","sass-loader"],
-                    publicPath: "/Users/praveen/Projects/PRJ_WBPCK/dist"
+                    publicPath: path.resolve(__dirname, "dist")
                 })
             }
         ]
@@ -33,8 +34,8 @@ module.exports = {
             template: "./src/index.ejs"
         }),
         new ExtractTextPlugin({
-            filename: "app.css",
-            disabled: false,
+            filename: "app.min.css",
+            disable: false,
             allChunks: true
         })
     ]
