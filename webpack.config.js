@@ -3,6 +3,17 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 const webpack = require('webpack');
 
+var isProd = process.env.NODE_ENV === "production";
+var cssDev = ["style-loader","css-loader","sass-loader"];
+//The 'Hot Module Replacement' does not work out of the box with 'ExtractTextPlugin', which I'm using in 'contact page'
+var cssProd = ExtractTextPlugin.extract({
+    fallback: "style-loader",
+    use: ["css-loader","sass-loader"],
+    publicPath: path.resolve(__dirname, "dist")
+});
+
+var cssConfig = isProd ? cssProd : cssDev;
+
 module.exports = {
     entry: {
         index: "./src/index.js",
@@ -20,11 +31,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: ["css-loader","sass-loader"],
-                    publicPath: path.resolve(__dirname, "dist")
-                })
+                use: cssConfig
             },
             {
                 test: /\.js$/,
@@ -60,10 +67,9 @@ module.exports = {
             filename: "contact.html",
             template: "./src/contact.ejs"
         }),
-        //The 'Hot Module Replacement' does not work out of the box with 'ExtractTextPlugin', which I'm using in 'contact page'
         new ExtractTextPlugin({
             filename: "contact.min.css",
-            disable: false,
+            disable: !isProd,
             allChunks: true
         }),
         new webpack.HotModuleReplacementPlugin(),
