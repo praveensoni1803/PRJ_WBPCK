@@ -3,10 +3,13 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 
 module.exports = {
-    entry: "./src/app.js",
+    entry: {
+        index: "./src/index.js",
+        contact : "./src/contact.js"
+    },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "app.min.js"
+        filename: "[name].min.js"
     },
     module: {
         rules: [
@@ -21,20 +24,41 @@ module.exports = {
                     use: ["css-loader","sass-loader"],
                     publicPath: path.resolve(__dirname, "dist")
                 })
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: "babel-loader"
             }
         ]
     },
+    devServer: {
+        contentBase: path.join(__dirname, "dist"),
+        compress: true,
+        port: 9000,
+        // stats: "errors-only",
+        open: true
+    },
     plugins: [
         new HtmlWebpackPlugin({
-            title: "Generated title",
-            minify: {
-                collapseWhitespace: true
-            },
+            title: "Home Page",
+            // To minify the generated HTML
+            // minify: {
+            //     collapseWhitespace: true
+            // },
             hash: true,
+            chunks: ["index"],
             template: "./src/index.ejs"
         }),
+        new HtmlWebpackPlugin({
+            title: "Contact Page",
+            hash: true,
+            chunks: ["contact"],
+            filename: "contact.html",
+            template: "./src/contact.ejs"
+        }),
         new ExtractTextPlugin({
-            filename: "app.min.css",
+            filename: "contact.min.css",
             disable: false,
             allChunks: true
         })
