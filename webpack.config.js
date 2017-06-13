@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -36,7 +37,9 @@ module.exports = {
         contentBase: path.join(__dirname, "dist"),
         compress: true,
         port: 9000,
-        // stats: "errors-only",
+        stats: "errors-only",
+        //Hot Module Replacement(basically to apply CSS chanes without reloading the page), which I'm using in 'index page'
+        hot: true,
         open: true
     },
     plugins: [
@@ -57,10 +60,13 @@ module.exports = {
             filename: "contact.html",
             template: "./src/contact.ejs"
         }),
+        //The 'Hot Module Replacement' does not work out of the box with 'ExtractTextPlugin', which I'm using in 'contact page'
         new ExtractTextPlugin({
             filename: "contact.min.css",
             disable: false,
             allChunks: true
-        })
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NamedModulesPlugin()
     ]
 }
