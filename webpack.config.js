@@ -37,6 +37,10 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: "babel-loader"
+            },
+            {
+                test: /\.png$/,
+                use: "file-loader"
             }
         ]
     },
@@ -75,4 +79,4 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin()
     ]
-}
+};
